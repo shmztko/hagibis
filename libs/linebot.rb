@@ -23,6 +23,21 @@ module LineBot
       @user_id = @config["bot_user_id"]
     end
 
+    def broadcast(message)
+      body = [
+        {
+          type: 'text',
+          text: message
+        },
+        {
+          type: 'sticker',
+          packageId: '11537',
+          stickerId: STICKER_POOL[rand(7)]
+        }
+      ]
+      @client.broadcast(body)
+    end
+
     def push_message(message)
       body = [
         {
