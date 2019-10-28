@@ -12,9 +12,9 @@ module RakutenCard
         def initialize config
             @client = Mechanize.new
             @config = config["rakuten"]
-            
+
         end
-    
+
         def authenticate
             login_page = @client.get("#{HOST_NAME}#{ENAVI_PATH}", {tabNo: 1})
             # ログアウトのボタンが存在していれば認証済みと判断
@@ -42,10 +42,10 @@ module RakutenCard
 
             tab_number = TabResolver.get_tab_index(target_year, target_month)
             Logger.info("Tab number resolved from date was #{tab_number}.")
-    
+
             usage_detail_csv = @client.get("#{HOST_NAME}#{ENAVI_PATH}", {tabNo: tab_number, downloadAsCsv: 1})
-    
-            download_path = "./temp/#{usage_detail_csv.filename}"
+
+            download_path = "./data/#{usage_detail_csv.filename}"
             File.open(download_path,"w") do |f|
                 f.puts(usage_detail_csv.content.encode("UTF-8", "Shift_JIS"))
             end
@@ -76,7 +76,7 @@ module RakutenCard
             if first_day_of_current_month - first_day_of_target_month < 0
                 raise "Can't get tab index for future date. year : #{target_year}, month : #{target_month}"
             end
-            # NOTES : Need to +1 after calculate difference of two dates. 
+            # NOTES : Need to +1 after calculate difference of two dates.
             #         According to following specification.
             # ====================================================
             # Specification of tab number for Rakuten E-navi page
