@@ -14,9 +14,9 @@ class HagibisApi < Sinatra::Base
 
   def client
     @client ||= Line::Bot::Client.new do |c|
-      c.channel_id = config["channel_id"]
-      c.channel_secret = config["channel_secret"]
-      c.channel_token = config["channel_token"]
+      c.channel_id = config["line"]["channel_id"]
+      c.channel_secret = config["line"]["channel_secret"]
+      c.channel_token = config["line"]["channel_token"]
     end
   end
 
@@ -32,6 +32,7 @@ class HagibisApi < Sinatra::Base
 
     signature = request.env['HTTP_X_LINE_SIGNATURE']
     unless client.validate_signature(body, signature)
+      logger.error("Signature validation failed")
       error 400 do 'Bad Request' end
     end
 
