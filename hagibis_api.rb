@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'logger'
 require 'line/bot'
+require 'yaml'
 
 class HagibisApi < Sinatra::Base
   logger = Logger.new(STDOUT)
