@@ -20,7 +20,7 @@ module LineBot
         config.channel_secret = @config["channel_secret"]
         config.channel_token = @config["channel_token"]
       end
-      @user_id = @config["bot_user_id"]
+      @notify_to = @config["notify_to"]
     end
 
     def broadcast(message)
@@ -50,7 +50,7 @@ module LineBot
           stickerId: STICKER_POOL[rand(7)]
         }
       ]
-      @client.push_message(@user_id, body)
+      @client.push_message(@notify_to, body)
     end
   end
 end

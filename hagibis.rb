@@ -8,7 +8,7 @@ module Hagibis
 
   class Command
     def initialize
-      @config = YAML.load_file("config/credentials.yaml")
+      @config = YAML.load_file("credentials/credentials.yaml")
       @rcard_client = RakutenCard::Client.new(@config)
       @gdrive_client = MyGoogleDrive::Client.new(@config)
       @line_client = LineBot::Client.new(@config)
