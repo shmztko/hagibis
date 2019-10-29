@@ -14,6 +14,10 @@ module Hagibis
       @line_client = LineBot::Client.new(@config)
     end
 
+    def push_message(message)
+      @line_client.push_message(message)
+    end
+
     def save(year, month)
       Logger.info("Saving billing statement of #{year}/#{month}")
 
@@ -39,6 +43,12 @@ module Hagibis
   end
 
   class CLI < Thor
+
+    desc "push MESSAGE", "Send message to LINE BOT"
+    def push(message)
+      command = Hagibis::Command.new
+      command.push_message(message)
+    end
 
     desc "save_between FROM_YEAR FROM_MONTH TO_YEAR TO_MONTH", "Save billing statement between given year/month."
     def save_between(from_year, from_month, to_year, to_month)
