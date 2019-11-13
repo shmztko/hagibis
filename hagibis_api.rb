@@ -36,6 +36,9 @@ class HagibisApi < Sinatra::Base
       error 400 do 'Bad Request' end
     end
 
+    # 返事来るのうざいので return
+    return "OK"
+
     events = client.parse_events_from(body)
     events.each { |event|
       case event
