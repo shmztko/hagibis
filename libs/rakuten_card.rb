@@ -1,4 +1,5 @@
 require 'date'
+require 'nkf'
 require 'mechanize'
 require 'time_difference'
 
@@ -47,7 +48,7 @@ module RakutenCard
 
             download_path = "./data/#{usage_detail_csv.filename}"
             File.open(download_path,"w") do |f|
-                f.puts(usage_detail_csv.content.encode("UTF-8", "Shift_JIS"))
+                f.puts(NKF.nkf("-w", usage_detail_csv.content))
             end
             download_path
         end
