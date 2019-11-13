@@ -28,7 +28,7 @@ module Hagibis
       Logger.info("#{uploaded.title} uploaded.")
 
       msg = """#{year}年 #{month}月 の 楽天カード請求明細です！\n#{uploaded.human_url}"""
-      @line_client.broadcast(msg)
+      @line_client.push_message(msg)
     end
 
     def bulk_save(from, to)
