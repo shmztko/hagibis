@@ -15,3 +15,6 @@ gem 'line-bot-api'
 
 # Debugging
 gem 'pry'
+
+# Documentation
+gem 'yard'
