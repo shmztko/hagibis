@@ -12,7 +12,7 @@ module LineMessage
     end
 
     def push_message(message)
-      body = body = LineBot::Helpers::BodyBuilder.new.text(message).random_sticker.body
+      body = LineBot::Helpers::BodyBuilder.new.text(message).random_sticker.body
       @line_client.push_message(@notify_to, body)
     end
   end
