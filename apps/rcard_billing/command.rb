@@ -24,7 +24,7 @@ module RCardBilling
       saved_file = @rcard_client.save_billing(year, month)
       Logger.info("Billing statement saved to '#{saved_file}'")
 
-      uploaded = upload_file(upload_dest_id, saved_file, year)
+      uploaded = upload_file(@upload_dest_id, saved_file, year)
       Logger.info("#{uploaded.title} uploaded to Google Drive.")
 
       message = """
