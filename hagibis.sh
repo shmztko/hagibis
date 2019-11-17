@@ -5,4 +5,4 @@ export PATH="$HOME/.anyenv/bin:$PATH:$HOME/bin"
 eval "$(anyenv init -)"
 
 cd ${SCRIPT_DIR}
-bundle exec ruby hagibis.rb save `date +%Y` `date +%m`
+bundle exec ruby hagibis.rb $@
