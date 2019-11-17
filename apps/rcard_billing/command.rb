@@ -13,25 +13,29 @@ module RCardBilling
       @rcard_client = RakutenCard::Client.new(@config["rakuten"]["username"], @config["rakuten"]["password"])
       
       @upload_dest_id = @config["googledrive"]["root_collection_id"]
-      @gdrive_client = MyGoogleDrive.new_client(@config["googledrive"]["client_id"], @config["googledrive"]["client_secret"], @config["googledrive"]["refresh_token"])
+      @gdrive_client = MyGoogleDrive::Client.new(@config["googledrive"]["client_id"], @config["googledrive"]["client_secret"], @config["googledrive"]["refresh_token"])
       
       @notify_to = @config["line"]["notify_to"]
       @line_client = LineBot.new_client(@config["line"]["channel_id"], @config["line"]["channel_secret"], @config["line"]["channel_token"])
     end
 
-    def save(year, month)
+    def save(year, month, notify: true)
       Logger.info("Saving billing statement of #{year}/#{month}")
       saved_file = @rcard_client.save_billing(year, month)
       Logger.info("Billing statement saved to '#{saved_file}'")
 
-      uploaded = upload_file(@upload_dest_id, saved_file, year)
+      upload_root = @gdrive_client.session.collection_by_id(@upload_dest_id)
+      uploaded = @gdrive_client.upload_file_with_subdir(upload_root, saved_file, year)
       Logger.info("#{uploaded.title} uploaded to Google Drive.")
 
-      message = """
-        #{year}年 #{month}月 の 楽天カード請求明細です！
-        #{uploaded.human_url}
-      """
-      notify(@notify_to, message)
+      if notify
+        message = """
+          #{year}年 #{month}月 の 楽天カード請求明細です！
+          #{uploaded.human_url}
+        """
+        body = LineBot::Helpers::BodyBuilder.new.text(message).random_sticker.body
+        @line_client.push_message(notify_to, body)
+      end
     end
 
     def save_between(from, to)
@@ -41,36 +45,9 @@ module RCardBilling
 
       Logger.info("Fetch loop for #{from.strftime("%Y-%m")} to #{to.strftime("%Y-%m")}.")
       while from <= to
-        save(from.year, from.month)
+        save(from.year, from.month, notify: false)
         from = from.next_month
       end
-    end
-
-    private
-
-    def upload_file(upload_dest_id, filepath, year)
-      upload_dest = @gdrive_client.collection_by_id(upload_dest_id)
-      year_folder = upload_dest.subcollection_by_title("#{year}")
-      if year_folder.nil?
-        year_folder = upload_dest.create_subcollection("#{year}")
-      end
-      # Google Drive では、同じフォルダ配下に同じ名前のファイルが作成できてしまうので、
-      # ファイル名 で 検索してすでにアップロード済みであればスキップする。
-      filename = File.basename(filepath)
-      found = year_folder.file_by_title(filename)
-      if found.nil?
-        # デフォルトは、convert: true だが、変換されると拡張子が消されてしまうため、
-        # 前段のファイル名チェックで検索できなくなるので、convert: false にする。
-        year_folder.upload_from_file(filepath, filename, convert: false)
-      else
-        Logger.info("[SKIPPED] File named '#{filename}' was already on Google Drive.")
-        found
-      end
-    end
-
-    def notify(notify_to, message) 
-      body = LineBot::Helpers::BodyBuilder.new.text(message).random_sticker.body
-      @line_client.push_message(notify_to, body)
     end
   end
 end
