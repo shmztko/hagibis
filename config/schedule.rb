@@ -8,6 +8,7 @@ job_type :hagibis, " :task :action :year :month"
 set :output, "~/apps/hagibis/logs/hagibis.log"
 env 'MAILTO', 'st0098+cron@gmail.com'
 
+# 楽天カードの明細が毎月12日に確定なので、13日に実行する。（8時なのは特に意味はない）
 every "0 8 13 * *" do
   command "~/apps/hagibis/hagibis.sh rcard_billing save `date +%Y` `date +%m`"
 end
