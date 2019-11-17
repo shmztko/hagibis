@@ -19,7 +19,7 @@ module RCardBilling
       @line_client = LineBot.new_client(@config["line"]["channel_id"], @config["line"]["channel_secret"], @config["line"]["channel_token"])
     end
 
-    def save_billing_of(year, month)
+    def save(year, month)
       Logger.info("Saving billing statement of #{year}/#{month}")
       saved_file = @rcard_client.save_billing(year, month)
       Logger.info("Billing statement saved to '#{saved_file}'")
@@ -34,14 +34,14 @@ module RCardBilling
       notify(@notify_to, message)
     end
 
-    def save_billing_between(from, to)
+    def save_between(from, to)
       if from > to
         raise "From date must before to date. From:#{from.strftime("%Y-%m")}, To:#{to.strftime("%Y-%m")}"
       end
 
       Logger.info("Fetch loop for #{from.strftime("%Y-%m")} to #{to.strftime("%Y-%m")}.")
       while from <= to
-        save_billing_of(from.year, from.month)
+        save(from.year, from.month)
         from = from.next_month
       end
     end
