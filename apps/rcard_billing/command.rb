@@ -32,9 +32,9 @@ module RCardBilling
         message = """
           #{year}年 #{month}月 の 楽天カード請求明細です！
           #{uploaded.human_url}
-        """
+        """.strip.gsub(" ", "")
         body = LineBot::Helpers::BodyBuilder.new.text(message).random_sticker.body
-        @line_client.push_message(notify_to, body)
+        @line_client.push_message(@notify_to, body)
       end
     end
 
