@@ -10,13 +10,4 @@ module LineBot
     end
   end
 
-  def broadcast(message)
-    body = LineBot::BodyBuilder.new.text(message).random_sticker().body
-    client.broadcast(body)
-  end
-
-  def push_message(to, message)
-    body = LineBot::BodyBuilder.new.text(message).random_sticker().body
-    client.push_message(to, body)
-  end
 end
