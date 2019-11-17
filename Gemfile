@@ -1,20 +1,24 @@
 source "https://rubygems.org"
 
 # Middleware
-gem 'unicorn'
-gem 'sinatra' # For LINE bot webhook
+gem "unicorn"
+gem "sinatra" # For LINE bot webhook
 
+# CLI
+gem "thor"
 # Utilities
-gem 'thor'
-gem 'time_difference'
-gem 'mechanize'
+gem "time_difference"
+# Scraping
+gem "mechanize"
+
+gem "whenever"
 
 # External service connectors
-gem 'google_drive'
-gem 'line-bot-api'
+gem "google_drive"
+gem "line-bot-api"
 
 # Debugging
-gem 'pry'
+gem "pry"
 
 # Documentation
-gem 'yard'
+gem "yard"

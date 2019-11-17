@@ -8,6 +8,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    chronic (0.10.2)
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
     connection_pool (2.2.2)
@@ -109,6 +110,8 @@ GEM
       kgio (~> 2.6)
       raindrops (~> 0.7)
     webrobots (0.1.2)
+    whenever (1.0.0)
+      chronic (>= 0.6.3)
     yard (0.9.20)
 
 PLATFORMS
@@ -123,6 +126,7 @@ DEPENDENCIES
   thor
   time_difference
   unicorn
+  whenever
   yard
 
 BUNDLED WITH
