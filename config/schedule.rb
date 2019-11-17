@@ -4,7 +4,6 @@
 # http://en.wikipedia.org/wiki/Cron
 # Learn more: http://github.com/javan/whenever
 
-job_type :hagibis, " :task :action :year :month"
 set :output, "~/apps/hagibis/logs/hagibis.log"
 env 'MAILTO', 'st0098+cron@gmail.com'
 
@@ -13,8 +12,7 @@ every "0 8 13 * *" do
   command "~/apps/hagibis/hagibis.sh rcard_billing save `date +%Y` `date +%m`"
 end
 
-every "10 1 1 * *" do
+# 毎月１日に壁紙が更新されるのでその後すぐに保存
+every :month, at: "1:10am" do
   command "~/apps/hagibis/hagibis.sh momoclo_wallpaper save `date +%Y` `date +%m`"
 end
-
-
