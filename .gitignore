@@ -15,5 +15,3 @@
 /credentials/*
 !/credentials/.gitkeep
 !/credentials/*.dummy
-
-/.bundle/
