@@ -1,6 +1,6 @@
 require_relative "../../libs/logger"
 require_relative "../../libs/rakutencard/client"
-require_relative "../../libs/mygoogledrive/session"
+require_relative "../../libs/mygoogledrive/client"
 require_relative "../../libs/linebot/client"
 require_relative "../../libs/linebot/helpers"
 
@@ -13,7 +13,7 @@ module RCardBilling
       @rcard_client = RakutenCard::Client.new(@config["rakuten"]["username"], @config["rakuten"]["password"])
       
       @upload_dest_id = @config["googledrive"]["root_collection_id"]
-      @gdrive_session = MyGoogleDrive.new_session(@config["googledrive"]["client_id"], @config["googledrive"]["client_secret"], @config["googledrive"]["refresh_token"])
+      @gdrive_client = MyGoogleDrive.new_client(@config["googledrive"]["client_id"], @config["googledrive"]["client_secret"], @config["googledrive"]["refresh_token"])
       
       @notify_to = @config["line"]["notify_to"]
       @line_client = LineBot.new_client(@config["line"]["channel_id"], @config["line"]["channel_secret"], @config["line"]["channel_token"])
@@ -49,7 +49,7 @@ module RCardBilling
     private
 
     def upload_file(upload_dest_id, filepath, year)
-      upload_dest = @gdrive_session.collection_by_id(upload_dest_id)
+      upload_dest = @gdrive_client.collection_by_id(upload_dest_id)
       year_folder = upload_dest.subcollection_by_title("#{year}")
       if year_folder.nil?
         year_folder = upload_dest.create_subcollection("#{year}")
