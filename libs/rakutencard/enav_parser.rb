@@ -11,10 +11,9 @@ module RakutenCard
     def self.enavi_url
       "#{RakutenCard::URL::HOST_NAME}#{RakutenCard::URL::ENAVI_PATH}"
     end
-
   end
 
-  class Client
+  class EnavParser
 
     SAVE_DIR = "./data/"
 
