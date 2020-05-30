@@ -1,10 +1,14 @@
-require 'logger'
-class Logger
-    LOGGER = Logger.new("logs/hagibis.log")
+# frozen_string_literal: true
 
-    class << self
-        def info(message)
-            LOGGER.info(message)
-        end
+require 'logger'
+
+# このアプリケーション用のロガー
+class Logger
+  LOGGER = Logger.new('logs/hagibis.log')
+
+  class << self
+    def info(message)
+      LOGGER.info(message)
     end
+  end
 end

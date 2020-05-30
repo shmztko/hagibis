@@ -8,3 +8,43 @@
 # where the inspected file is and continue its way up to the root directory.
 #
 # See https://github.com/rubocop-hq/rubocop/blob/master/manual/configuration.md
+
+
+# Layouts
+Layout/EmptyLinesAroundAttributeAccessor:
+    Enabled: true
+Layout/SpaceAroundMethodCallOperator:
+    Enabled: true
+
+# Lints
+Lint/DeprecatedOpenSSLConstant:
+    Enabled: true
+Lint/RaiseException:
+    Enabled: true
+Lint/StructNewOverride:
+    Enabled: true
+
+# Styles
+Style/ExponentialNotation:
+    Enabled: true
+Style/HashEachMethods:
+    Enabled: true
+Style/HashTransformKeys:
+    Enabled: true
+Style/HashTransformValues:
+    Enabled: true
+Style/SlicingWithRange:
+    Enabled: true
+Style/GuardClause:
+    # 例外投げるときにエラーメッセージなど詳細に記述すると、条件が後ろの方にいって見づらくなるので
+    # 1行ならくくっても良いことにしたい。
+    MinBodyLength: 2
+# 日本語コメントは許可する。
+Style/AsciiComments:
+    Enabled: false
+
+# Metrics
+Metrics/BlockLength:
+    Exclude:
+        # Spec はどうしても長くなるので除外
+        - 'spec/**/*_spec.rb'
