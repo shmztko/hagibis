@@ -15,3 +15,5 @@
 /credentials/*
 !/credentials/.gitkeep
 !/credentials/*.dummy
+
+.yardoc
