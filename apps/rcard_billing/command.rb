@@ -7,6 +7,7 @@ require_relative "../../libs/linebot/helpers"
 module RCardBilling
   class Command
 
+    # 楽天カードの請求書を保存 / 通知するCommandクラスを生成します。
     def initialize
       @config = YAML.load_file("credentials/credentials.yaml")
       # TODO : Yaml 読み込み周りのリファクタ
