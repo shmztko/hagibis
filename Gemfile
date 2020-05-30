@@ -11,6 +11,7 @@ gem "time_difference"
 # Scraping
 gem "mechanize"
 
+# DSL for crontab
 gem "whenever"
 
 # External service connectors
@@ -19,6 +20,11 @@ gem "line-bot-api"
 
 # Debugging
 gem "pry"
+
+# Testing
+gem "rspec"
+# Linting
+gem "rubocop"
 
 # Documentation
 gem "yard"
